@@ -2,20 +2,20 @@ package gopts
 
 // Option is a generic type that can be used to represent a value
 // that may or may not be present.
-type _option[T any] struct {
+type Option[T any] struct {
 	value T
 	some  bool
 }
 
 // Option is a generic interface that can be used to represent a value
 // that may or may not be present.
-type Option[T any] interface {
-	IsSome() bool
-	IsNone() bool
-	Unwrap() T
-	GetOrElse(T) T
-	Get() (T, bool)
-}
+// type Option[T any] interface {
+// 	IsSome() bool
+// 	IsNone() bool
+// 	Unwrap() T
+// 	GetOrElse(T) T
+// 	Get() (T, bool)
+// }
 
 // Some returns an Option[T] with a value.
 // Example:
@@ -23,7 +23,7 @@ type Option[T any] interface {
 //	opt := Some(42)
 //	fmt.Println(opt.IsSome()) // true
 func Some[T any](value T) Option[T] {
-	return &_option[T]{value, true}
+	return Option[T]{value, true}
 }
 
 // None returns an Option[T] with no value.
@@ -32,7 +32,7 @@ func Some[T any](value T) Option[T] {
 //	opt := None()
 //	fmt.Println(opt.IsNone()) // true
 func None[T any]() Option[T] {
-	return &_option[T]{some: false}
+	return Option[T]{some: false}
 }
 
 // IsSome returns true if the Options[T] has a value.
@@ -40,7 +40,7 @@ func None[T any]() Option[T] {
 //
 //	opt := Some(42)
 //	fmt.Println(opt.IsSome()) // true
-func (o *_option[T]) IsSome() bool {
+func (o *Option[T]) IsSome() bool {
 	return o.some
 }
 
@@ -49,7 +49,7 @@ func (o *_option[T]) IsSome() bool {
 //
 //	opt := None()
 //	fmt.Println(opt.IsNone()) // true
-func (o *_option[T]) IsNone() bool {
+func (o *Option[T]) IsNone() bool {
 	return o.some == false
 }
 
@@ -59,7 +59,7 @@ func (o *_option[T]) IsNone() bool {
 //
 //	opt := Some(42)
 //	fmt.Println(opt.Unwrap()) // 42
-func (o *_option[T]) Unwrap() (res T) {
+func (o *Option[T]) Unwrap() (res T) {
 	if o.some == false {
 		panic("Unwrap called on None")
 	}
@@ -73,7 +73,7 @@ func (o *_option[T]) Unwrap() (res T) {
 //
 //	opt := Some(42)
 //	fmt.Println(opt.GetOrElse(0)) // 42
-func (o *_option[T]) GetOrElse(defaultValue T) (res T) {
+func (o *Option[T]) GetOrElse(defaultValue T) (res T) {
 	if o.some == false {
 		return defaultValue
 	}
@@ -88,7 +88,7 @@ func (o *_option[T]) GetOrElse(defaultValue T) (res T) {
 //	opt := Some(42)
 //	val, ok := opt.Get()
 //	fmt.Println(val, ok) // 42, true
-func (o *_option[T]) Get() (res T, ok bool) {
+func (o *Option[T]) Get() (res T, ok bool) {
 	if o.some == false {
 		return
 	}
