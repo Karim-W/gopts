@@ -50,7 +50,7 @@ func (o *Option[T]) IsSome() bool {
 //	opt := None()
 //	fmt.Println(opt.IsNone()) // true
 func (o *Option[T]) IsNone() bool {
-	return o.some == false
+	return !o.some
 }
 
 // Unwrap returns the value of the Options[T].
@@ -60,7 +60,7 @@ func (o *Option[T]) IsNone() bool {
 //	opt := Some(42)
 //	fmt.Println(opt.Unwrap()) // 42
 func (o *Option[T]) Unwrap() (res T) {
-	if o.some == false {
+	if !o.some {
 		panic("Unwrap called on None")
 	}
 
@@ -74,7 +74,7 @@ func (o *Option[T]) Unwrap() (res T) {
 //	opt := Some(42)
 //	fmt.Println(opt.GetOrElse(0)) // 42
 func (o *Option[T]) GetOrElse(defaultValue T) (res T) {
-	if o.some == false {
+	if !o.some {
 		return defaultValue
 	}
 
@@ -89,7 +89,7 @@ func (o *Option[T]) GetOrElse(defaultValue T) (res T) {
 //	val, ok := opt.Get()
 //	fmt.Println(val, ok) // 42, true
 func (o *Option[T]) Get() (res T, ok bool) {
-	if o.some == false {
+	if !o.some {
 		return
 	}
 
