@@ -9,6 +9,25 @@ import (
 	"github.com/karim-w/gopts"
 )
 
+type testStruct struct {
+	Opt gopts.Option[int]
+}
+
+func (r *testStruct) getOpt() gopts.Option[int] {
+	return r.Opt
+}
+
+func TestSomeEmbedded(t *testing.T) {
+	ts := testStruct{Opt: gopts.Some(42)}
+
+	if !ts.getOpt().IsSome() {
+		t.Error("ts.Opt.IsSome() should be true")
+	}
+	if ts.getOpt().IsNone() {
+		t.Error("ts.Opt.IsNone() should be false")
+	}
+}
+
 func TestSome(t *testing.T) {
 	opt := gopts.Some(42)
 	if !opt.IsSome() {
